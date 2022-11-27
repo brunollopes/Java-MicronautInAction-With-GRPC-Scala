@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: micronautgrpcscala
+  security:
+      enabled: false
+  session:
+    http:
+      cookie: true
+      header: true
+  server:
+    port: 8081
+netty:
+  default:
+    allocator:
+      max-order: 3
