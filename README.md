@@ -28,7 +28,7 @@ Java Spring Boot (Spring Boot) is a tool that makes developing web application a
 
 - [Micronaut](micronaut/)
 
-- [Sprintboot](springboot/)
+- [Springboot](springboot/)
 
 In both cases, the maven command (mvn clean install) should end successfully.
 
