@@ -34,12 +34,12 @@ You can start by looking at the tests scenarios available @
 
 ## Stats - results
 This is a limited test case but from here we can see that:
-- Micronaut is faster to startup, it took only 17.400 seconds to run (mvn clean install)
-![My image](sshots/micronaut.png)
+- Micronaut is faster to startup, it took only 17.400 seconds to run (mvn clean install)</br>
+![My image](sshots/micronaut.png) </br>
 ![My image](sshots/springboot.png)
 
-- Micronaut did use less memory
-![My image](sshots/micronautMem.png)
+- Micronaut did use less memory</br>
+![My image](sshots/micronautMem.png) </br>
 ![My image](sshots/springbootMem.png)
 
 ## Exceptions/errors you my face and actions to take
