@@ -1,5 +1,4 @@
 # Java-MicronautInAction-With-GRPC-Scala
-One Rest Controller, One Grpc Server, Two Backend Scala servers
 
 Micronaut and Spring-boot in Action
 ==============================================
