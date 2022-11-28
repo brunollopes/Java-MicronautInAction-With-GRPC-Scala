@@ -1,6 +1,5 @@
 package com.bole.controller;
 
-import com.bole.controller.UserAccount;
 import com.bole.domain.AccountInfoMock;
 import com.bole.domain.UserInfoMock;
 import com.bole.grpc.server.LoginServiceImpl;
@@ -30,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-public class UserAccountTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
