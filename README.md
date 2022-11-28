@@ -29,8 +29,8 @@ In both cases, the maven command (mvn clean install) should end successfully.
 
 ## Where to start?
 You can start by looking at the tests scenarios available @ 
-- [Micronaut](micronaut/services/src/test/java/com/bole/controller/UserControllerTest.java) (micronaut/services/src/test/java/com/bole/controller/UserControllerTest.java)
-- [Springboot](spring-boot/services/src/test/java/com/bole/controller/UserControllerTest.java) (springboot/services/src/test/java/com/bole/controller/UserControllerTest.java)
+- [Micronaut](micronaut/service/src/test/java/com/bole/controller/UserControllerTest.java) (micronaut/services/src/test/java/com/bole/controller/UserControllerTest.java)
+- [Springboot](spring-boot/service/src/test/java/com/bole/controller/UserControllerTest.java) (springboot/services/src/test/java/com/bole/controller/UserControllerTest.java)
 
 ## Stats - results
 This is a limited test case but from here we can see that:
