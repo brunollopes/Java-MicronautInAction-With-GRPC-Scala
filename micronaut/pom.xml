@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bole</groupId>
+    <artifactId>java-micronaut-grpc-scala</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>io.micronaut</groupId>
+        <artifactId>micronaut-parent</artifactId>
+        <version>3.7.4</version>
+    </parent>
+
+    <properties>
+        <jdk.version>11</jdk.version>
+        <micronaut.version>3.7.4</micronaut.version>
+    </properties>
+
+    <modules>
+        <module>persistence</module>
+        <module>service</module>
+    </modules>
+    
+    <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-bom</artifactId>
+            <version>${micronaut.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+        <groupId>com.bole</groupId>
+        <artifactId>java-micronaut-grpc-scala-persistence</artifactId>
+        <version>${app.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.bole</groupId>
+        <artifactId>java-micronaut-grpc-scala-services</artifactId>
+        <version>${app.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>
