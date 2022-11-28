@@ -10,8 +10,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service</artifactId>
+
     <properties>
+        <start-class>com.bole.Application</start-class>
+        <bole.persistence>1.0</bole.persistence>
         <java.version>11</java.version>
+        <lombok.version>1.18.24</lombok.version>
+        <release.version>11</release.version>
+        <springboot.version>2.7.5</springboot.version>
+        <spring.version>2.7.5</spring.version>
+        <spring.retry>1.3.4</spring.retry>
+        <spring-cloud-starter.version>3.1.5</spring-cloud-starter.version>
+        <spring-aspects.version>6.0.2</spring-aspects.version>
+        <feign.version>12.1</feign.version>
+        <junit-vintage.version>5.9.1</junit-vintage.version>
+        <json.version>2.7.0</json.version>
+        <java-jwt.version>4.2.1</java-jwt.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
     <build>
         <extensions>
@@ -46,35 +61,47 @@
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+<!--                <configuration>-->
+<!--                    <mainClass>com.bole.Application</mainClass>-->
+<!--                </configuration>-->
+            </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>com.bole</groupId>
             <artifactId>persistence</artifactId>
-            <version>1.0</version>
+            <version>${bole.persistence}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.7.0</version>
+            <version>${json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.7.5</version>
+            <version>${springboot.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.9.1</version>
+            <version>${junit-vintage.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -86,43 +113,43 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.7.5</version>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.5</version>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>4.2.1</version>
+            <version>${java-jwt.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jjwt.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>10.11</version>
+            <version>${feign.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
-            <version>1.2.5.RELEASE</version>
+            <version>${spring.retry}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
-            <version>5.2.8.RELEASE</version>
+            <version>${spring-aspects.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>3.1.5</version>
+            <version>${spring-cloud-starter.version}</version>
         </dependency>
     </dependencies>
 </project>

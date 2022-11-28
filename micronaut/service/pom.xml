@@ -27,6 +27,10 @@
     <shade.plugin.version>3.1.0</shade.plugin.version>
     <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     <feign.version>11.8</feign.version>
+    <jjwt.version>0.9.1</jjwt.version>
+    <jaxb-api.version>2.3.0</jaxb-api.version>
+    <grpc.version>1.41.0</grpc.version>
+    <bole.persistence>1.0</bole.persistence>
   </properties>
 
   <repositories>
@@ -40,22 +44,22 @@
     <dependency>
       <groupId>com.bole.persistence</groupId>
       <artifactId>persistence</artifactId>
-      <version>1.0</version>
+      <version>${bole.persistence}</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-netty-shaded</artifactId>
-      <version>1.41.0</version>
+      <version>${grpc.version}</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-protobuf</artifactId>
-      <version>1.41.0</version>
+      <version>${grpc.version}</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-stub</artifactId>
-      <version>1.41.0</version>
+      <version>${grpc.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut</groupId>
@@ -95,7 +99,7 @@
     <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
-      <version>2.3.0</version>
+      <version>${jaxb-api.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
@@ -120,7 +124,7 @@
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
-      <version>0.9.1</version>
+      <version>${jjwt.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.security</groupId>
@@ -198,13 +202,13 @@
       </extension>
     </extensions>
     <plugins>
-<!--      <plugin>-->
-<!--        <groupId>io.micronaut.build</groupId>-->
-<!--        <artifactId>micronaut-maven-plugin</artifactId>-->
-<!--          <configuration>-->
-<!--            <shared>false</shared>-->
-<!--          </configuration>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>io.micronaut.build</groupId>
+        <artifactId>micronaut-maven-plugin</artifactId>
+          <configuration>
+            <shared>false</shared>
+          </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

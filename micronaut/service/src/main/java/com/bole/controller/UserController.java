@@ -29,11 +29,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 import java.util.Optional;
 
 
+@Slf4j
 @Controller("/micronaut/")
 public class UserController {
 
@@ -56,6 +58,7 @@ public class UserController {
 
     @Post(value = "/useraccount/", consumes = "application/json", produces = "application/json")
     public HttpResponse<Optional<UserAccountResponse>> userAccount(@Body @Valid AuthRequest request){
+        log.info("useraccount - request received with request body: " + request.toString());
         try {
 
             if(StringUtils.isEmpty(request.getUsername()) || StringUtils.isEmpty(request.getPassword())) {

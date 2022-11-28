@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import java.util.Optional;
 /**
  * API UserAccount
 */
+@Slf4j
 @RestController
 public class UserAccount {
 
@@ -60,6 +62,7 @@ public class UserAccount {
 
     @PostMapping(value = "/springboot/useraccount/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  userAccount(@RequestBody @Valid AuthRequest request){
+       log.info("useraccount - request received with request body: " + request.toString());
         try {
 
             if(Strings.isBlank(request.getUsername()) || Strings.isBlank(request.getPassword())) {
