@@ -1,4 +1,4 @@
-package com.bole.service.controller;
+package com.bole.controller;
 
 import com.bole.controller.UserAccount;
 import com.bole.domain.AccountInfoMock;
