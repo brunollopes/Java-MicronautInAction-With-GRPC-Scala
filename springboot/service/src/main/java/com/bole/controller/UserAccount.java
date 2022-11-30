@@ -1,7 +1,5 @@
 package com.bole.controller;
 
-import com.bole.client.Account;
-import com.bole.client.User;
 import com.bole.domain.UserAccountInfo;
 import com.bole.domain.UserAccountResponse;
 import com.bole.domain.UserInfo;
@@ -9,8 +7,9 @@ import com.bole.exception.BadRequestException;
 import com.bole.exception.UnAuthorizedException;
 import com.bole.security.auth.AuthRequest;
 import com.bole.security.auth.AuthorisationService;
-import com.bole.service.StatsService;
+import com.bole.service.AccountService;
 import com.bole.service.UserAccountService;
+import com.bole.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * API UserAccount
@@ -41,10 +42,10 @@ public class UserAccount {
     UserAccountService userAccountService;
 
     @Autowired
-    User clientUser;
+    UserService userService;
 
     @Autowired
-    Account clientAccount;
+    AccountService accountService;
 
     @Autowired
     AuthorisationService authorisationService;
@@ -61,35 +62,49 @@ public class UserAccount {
     })
 
     @PostMapping(value = "/springboot/useraccount/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?>  userAccount(@RequestBody @Valid AuthRequest request){
+    public ResponseEntity<?>  userAccount(@RequestBody @Valid AuthRequest request) {
        log.info("useraccount - request received with request body: " + request.toString());
-        try {
+       try {
 
-            if(Strings.isBlank(request.getUsername()) || Strings.isBlank(request.getPassword())) {
-                throw new BadRequestException("invalid username or password");
-            }
+           if (Strings.isBlank(request.getUsername()) || Strings.isBlank(request.getPassword())) {
+               throw new BadRequestException("invalid username or password");
+           }
 
-            String token = authorisationService.obtainAuthToken(request.getUsername(), request.getPassword());
+           String token = authorisationService.obtainAuthToken(request.getUsername(), request.getPassword());
 
-            UserInfo userInfo = clientUser.findUserInfo(token);
-            UserAccountInfo userAccountInfo = clientAccount.findAccountInfo(token);
+           final long startTime = System.currentTimeMillis();
 
-            Optional<UserAccountResponse> userAccountResponse = userAccountService.getAccountInfo(
-                 userAccountInfo, userInfo
-            );
+           CompletableFuture<UserAccountInfo> userAccountInfo = accountService.getAccountInfo(token);
+           CompletableFuture<UserInfo> userInfo = userService.getUserInfo(token);
 
-            if(userAccountResponse.isEmpty()) {
-                throw new BadCredentialsException("Bad Credentials");
-            }
+           System.out.println(
+                   "Current main over Account and Service Thread Name : "
+                           + Thread.currentThread().getName());
 
-            return ResponseEntity.ok().body(userAccountResponse);
-        } catch (BadCredentialsException | UnAuthorizedException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        } catch (BadRequestException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
+           Optional<UserAccountResponse> userAccountResponse = userAccountService.getAccountInfo(
+                   userAccountInfo.get(),userInfo.get()
+           );
 
+           final long endTime = System.currentTimeMillis();
+           final float diffTime = (endTime - startTime) / 1000F;
+           System.out.println("Rest feign call Total time: " + diffTime);
+
+           if (userAccountResponse.isEmpty()) {
+               throw new BadCredentialsException("Bad Credentials");
+           }
+
+           return ResponseEntity.ok().body(userAccountResponse);
+       } catch (BadCredentialsException | UnAuthorizedException ex) {
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+       } catch (BadRequestException ex) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+       }
+       catch (ExecutionException e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       } catch (InterruptedException e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+   }
 }
 
 

@@ -1,8 +1,5 @@
 package com.bole.controller;
 
-import com.bole.client.Account;
-import com.bole.client.User;
-import com.bole.client.feign.UserFeignClientBuilder;
 import com.bole.domain.UserAccountInfo;
 import com.bole.domain.UserAccountResponse;
 import com.bole.domain.UserInfo;
@@ -10,19 +7,15 @@ import com.bole.exception.BadRequestException;
 import com.bole.exception.UnAuthorizedException;
 import com.bole.security.auth.AuthRequest;
 import com.bole.security.auth.AuthorisationService;
-import com.bole.service.StatsService;
+import com.bole.service.AccountService;
 import com.bole.service.UserAccountService;
-import feign.Feign;
-import feign.Logger;
+import com.bole.service.UserService;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import io.micronaut.security.oauth2.endpoint.authorization.request.ResponseType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @Slf4j
@@ -44,6 +39,12 @@ public class UserController {
 
     @Inject
     AuthorisationService authorisationService;
+
+    @Inject
+    UserService userService;
+
+    @Inject
+    AccountService accountService;
 
     @Operation(summary = "Retrieve user account details for authorized users")
     @ApiResponses(value = {
@@ -67,18 +68,20 @@ public class UserController {
 
             String token = authorisationService.obtainAuthToken(request.getUsername(), request.getPassword());
 
-            User user = UserFeignClientBuilder.createClientWithInterceptor(User.class,"http://localhost:8898/micronaut/",token);
+            final long startTime = System.currentTimeMillis();
 
-            UserInfo userInfo = user.findUserInfo();
+            CompletableFuture<UserAccountInfo> userAccountInfo = accountService.getAccountInfo(token);
+            CompletableFuture<UserInfo> userInfo = userService.getUserInfo(token);
 
-            Account account = UserFeignClientBuilder.createRetryClientWithInterceptor(Account.class,"http://localhost:8899/micronaut/",token);
-
-            UserAccountInfo userAccountInfo = account.findAccountInfo();
-
-
-                    Optional<UserAccountResponse> userAccountResponse = userAccountService.getAccountInfo(
-                            userAccountInfo, userInfo
+            Optional<UserAccountResponse> userAccountResponse = userAccountService.getAccountInfo(
+                    userAccountInfo.get(),userInfo.get()
             );
+
+
+            final long endTime = System.currentTimeMillis();
+            final float diffTime = (endTime - startTime) / 1000F;
+            System.out.println("Rest feign call Total time: " + diffTime);
+
 
             HttpResponse<Optional<UserAccountResponse>> response = HttpResponse.ok().contentType(MediaType.APPLICATION_JSON).body(userAccountResponse);
 
@@ -88,6 +91,10 @@ public class UserController {
         }
         catch ( BadRequestException ex) {
             return HttpResponse.badRequest();
+        } catch (ExecutionException e) {
+            return HttpResponse.serverError();
+        } catch (InterruptedException e) {
+            return  HttpResponse.serverError();
         }
     }
 
