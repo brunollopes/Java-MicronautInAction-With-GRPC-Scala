@@ -20,6 +20,7 @@ Java Spring Boot (Spring Boot) is a tool that makes developing web application a
 - How to Communicate with a remote server using an authenticated http1 request
 - How to Create a Scala mocked server that will expect an authenticated request
 - How to Force a request retry in case your firsts requests didn't succeed
+- How to Call external APIs (feign clients) in an asynchronous way and thus reduce the overall latency!
 - How to Create integration tests to validate your scenarios with MicronautTest
 - How to Do other small but important things (like integrate OpenAPI and document your API), Generate a JWT token, sf4j logs, Json and other annotations
 
